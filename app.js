@@ -61,6 +61,25 @@ userModel.find({"email":req.body.email}).then((response)=>{
 }).catch()
 })
 
+app.post("/viewusers",(req,res)=>{
+     let token= req.headers["token"]
+     jwt.verify(token,"blog-app",(error,decoded)=>{
+        if (error) {
+            res.json({"status":"unauthorized access"})
+        } else {
+            if (decoded) {
+                userModel.find().then(
+                    (data)=>{
+                        res.json(data)
+                    }
+                ).catch()
+            } 
+            
+            
+        }
+     })
+})
+
 app.listen(8081,()=>{
     console.log("server started")
 })
